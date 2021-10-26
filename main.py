@@ -13,6 +13,7 @@ def input():
 
 def page_load_condition(driver, locator, wait_time=3):
     #wait time should be the condition for a loop that waits then tries to find the element
+    #Not sure if this works yet......
     count = 0
     while (count <= wait_time):
         time.sleep(1)
