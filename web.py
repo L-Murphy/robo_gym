@@ -51,7 +51,7 @@ def pick_time_slot(driver, slot_num):
     reserve_btn.click()
     time.sleep(2)
 
-def main():
+def run(time_slot=3):
     # Loads the first page
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.maximize_window()
@@ -85,12 +85,12 @@ def main():
     time.sleep(2)
     date_btn_list[len(date_btn_list) - 1].click()
 
-    pick_time_slot(driver, 3)
+    pick_time_slot(driver, time_slot)
 
     driver.close()
 
 
 if __name__ == "__main__":
-    main()
+    run()
 
 
