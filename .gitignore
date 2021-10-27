@@ -1,3 +1,6 @@
 login.txt
 *.env
 __pycache__
+/build
+/dist
+interface.spec
