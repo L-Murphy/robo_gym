@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC, wait
+from selenium.webdriver.chrome.service import Service
 
 import time
 def input():
@@ -28,9 +29,9 @@ def page_load_condition(driver, locator, wait_time=3):
 
 def login(driver):
     #Find the three relevant page sections
-    username_field = driver.find_element_by_css_selector("#userNameInput")
-    password_field = driver.find_element_by_id("passwordInput")
-    submit_btn = driver.find_element_by_id("submitButton")
+    username_field = driver.find_element(By.CSS_SELECTOR, "#userNameInput")
+    password_field = driver.find_element(By.ID,"passwordInput")
+    submit_btn = driver.find_element(By.ID, "submitButton")
 
     #Get the login details
     file = open('../login.txt', 'r')
@@ -45,7 +46,7 @@ def login(driver):
 
 def pick_time_slot(driver, slot_num):
     #wait
-    reserve_btns = driver.find_elements_by_css_selector(".booking-slot-item button")
+    reserve_btns = driver.find_elements(By.CSS_SELECTOR, ".booking-slot-item button")
     time.sleep(2)
     reserve_btn = reserve_btns[slot_num]
     reserve_btn.click()
@@ -53,15 +54,18 @@ def pick_time_slot(driver, slot_num):
 
 def run(time_slot=3):
     # Loads the first page
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    ser = Service("C:/Users/murph/Documents/auto/chrome/chromedriver.exe")
+    driver = webdriver.Chrome(service=ser)
     driver.maximize_window()
+
+
     driver.get("https://rec.carleton.ca/Account/Login")
     assert "Portal" in driver.title
 
     #Sets the implicit wait time to 10 seconds
     driver.implicitly_wait(10)
 
-    element = driver.find_element_by_css_selector("[title~='Description']")
+    element = driver.find_element(By.CSS_SELECTOR, "[title~='Description']")
     #page_load_condition("loginModalContainer")
     
     element.click()
@@ -74,13 +78,13 @@ def run(time_slot=3):
     #page_load_condition("NewBooking")
     
     #Navigates to the new booking page
-    btn_list = driver.find_elements_by_css_selector("a.inherit-link")
+    btn_list = driver.find_elements(By.CSS_SELECTOR, "a.inherit-link")
     fitness_btn = btn_list[0]
     link_extension = fitness_btn.get_attribute("href")
     driver.get(link_extension)
 
     #On new page this finds the selectable dates
-    date_btn_list = driver.find_elements_by_css_selector(".flex-center .btn")
+    date_btn_list = driver.find_elements(By.CSS_SELECTOR, ".flex-center .btn")
     #could make this choose any of them from the list based on their dates? for now just always picks the last item
     time.sleep(2)
     date_btn_list[len(date_btn_list) - 1].click()
